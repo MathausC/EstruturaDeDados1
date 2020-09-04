@@ -1,24 +1,26 @@
-package br.unicap.ed1.TipoDeDados;
+package br.unicap.ed1.TiposDeDados;
 
-class LSENode <T> {
-    private T info;
-    private LSENode<T> prox;
+class LSENode<T> {
+	private T info;
+	private LSENode<T> prox;
 
-    void setInfo(T obj) {
-        this.info = obj;
-    }
-    T getInfo() {
-        return this.info;
-    }
+	void setInfo(T obj) {
+		this.info = obj;
+	}
 
-    void setProx(LSENode<T> prox) {
-        this.prox = prox;
-    }
-    LSENode<T> getProx(){
-        return this.prox;
-    }
+	T getInfo() {
+		return this.info;
+	}
 
-    LSENode (T obj) {
-        setInfo(obj);
-    }
+	void setProx(LSENode<T> prox) {
+		this.prox = prox;
+	}
+
+	LSENode<T> getProx() {
+		return this.prox;
+	}
+
+	LSENode(T obj) {
+		setInfo(obj);
+	}
 }
