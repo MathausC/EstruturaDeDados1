@@ -1,49 +1,66 @@
 package br.unicap.ed1.TiposDeDados;
 
-public class LSE<T> {
+public class LSE<T extends Comparable<T>> {
 	private LSENode<T> inicio;
 	private LSENode<T> fim;
 	private int qtd;
 
-	@SuppressWarnings("unused")
-	private void setInicio(LSENode<T> inicio) {
+	protected void setInicio(LSENode<T> inicio) {
 		this.inicio = inicio;
 	}
 
 	public LSENode<T> getInicio() {
 		return this.inicio;
 	}
+	
+	protected void setFim(LSENode<T> fim) {
+		this.fim = fim;
+	}
+	
+	public LSENode<T> getFim() {
+		return this.fim;
+	}
 
-	private boolean isEmpty() {
+	protected boolean isEmpty() {
 		return this.inicio == null;
+	}
+	
+	public int getQtd() {
+		return this.qtd;
+	}
+	
+	protected void addOneToQtd() {
+		this.qtd++;
 	}
 
 	public void incerirNó(T obj) {
 		LSENode<T> node = new LSENode<T>(obj);
 		if (this.isEmpty()) {
-			this.inicio = node;
-			this.fim = node;
-		} else {
-			node.setProx(this.inicio);
-			this.inicio = node;
+			this.setInicio(node);
+			this.setFim(node);
 		}
-		this.qtd++;
+		else {
+			node.setProx(this.getInicio());
+			this.setInicio(node);				
+		}
+		this.addOneToQtd();
 	}
 
 	public void inserirNóFinal(T obj) {
 		LSENode<T> node = new LSENode<T>(obj);
 		if (this.isEmpty()) {
-			this.inicio = node;
-			this.fim = node;
-		} else {
-			this.fim.setProx(node);
-			this.fim = node;
+			this.setInicio(node);
+			this.setFim(node);
+		} 
+		else {
+			this.getFim().setProx(node);
+			this.setFim(node);
 		}
-		this.qtd++;
+		this.addOneToQtd();
 	}
 
 	public void exibirLista() {
-		LSENode<T> aux = this.inicio;
+		LSENode<T> aux = this.getInicio();
 		while (aux != null) {
 			System.out.println(aux.getInfo());
 			aux = aux.getProx();
@@ -53,12 +70,13 @@ public class LSE<T> {
 	public void removerInicio() {
 		if(!this.isEmpty()) {
 			if(this.qtd == 1) {
-				this.inicio = this.inicio.getProx();
-				this.fim = this.fim.getProx();
+				this.setInicio(null);
+				this.setFim(null);
 			}
 			else {
-				this.inicio = this.inicio.getProx();
+				this.setInicio(this.getInicio().getProx());
 			}
+			System.out.println("Item removido.");
 			this.qtd--;
 		}
 		else {
@@ -69,18 +87,20 @@ public class LSE<T> {
 	public void removerFim() {		
 		if(!this.isEmpty()) {
 			if(qtd == 1) {
-				this.inicio = this.inicio.getProx();
-				this.fim = this.fim.getProx();
+				this.setInicio(null);
+				this.setFim(null);
 			}
 			else {
-				LSENode<T> aux = this.inicio.getProx();
-				LSENode<T> ant = this.inicio;
-				while(aux != null) {
+				LSENode<T> aux = this.getInicio();
+				LSENode<T> ant = null;
+				while(aux.getProx() != null) {
 					ant = aux;
 					aux = aux.getProx();
 				}
-				this.fim = ant;
+				this.setFim(ant);
+				this.getFim().setProx(null);
 			}
+			System.out.println("Item removido.");
 			this.qtd--;
 		}
 		else {
@@ -88,12 +108,15 @@ public class LSE<T> {
 		}
 	}
 	
-	private LSENode<T> getItem(T obj) {		
-		LSENode<T> aux = this.inicio;
-		while(aux.getInfo() != obj && aux != null) {
+	protected LSENode<T> getItem(T obj) {		
+		LSENode<T> aux = this.getInicio();
+		while(aux != null) {
+			if(aux.getInfo().compareTo(obj) == 0) {
+				return aux;
+			}
 			aux = aux.getProx();
 		}
-		return aux;
+		return null;
 	}
 
 	public void substituiItem(T item, T novo) {

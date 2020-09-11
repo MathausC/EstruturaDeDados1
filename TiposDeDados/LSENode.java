@@ -1,6 +1,6 @@
 package br.unicap.ed1.TiposDeDados;
 
-class LSENode<T> {
+class LSENode<T extends Comparable<T>> {
 	private T info;
 	private LSENode<T> prox;
 
